@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Deploy to VPS
+      - name: Check for local changes and create PR if needed
+        id: check_changes
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -19,6 +20,52 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script_stop: false
           script: |
+            cd ~/work-track/deployment
+            git fetch origin master
+            
+            # Check for local changes or divergence from origin
+            if ! git diff --quiet HEAD origin/master || [ -n "$(git status --porcelain)" ]; then
+              echo "Found local changes on server, creating PR..."
+              
+              BRANCH_NAME="server-local-changes-prod-$(date +%s)"
+              git config user.name "GitHub Actions"
+              git config user.email "actions@github.com"
+              
+              # Create branch with local changes
+              git checkout -b "$BRANCH_NAME"
+              git add -A
+              git commit -m "Server local changes found during production deployment
+              
+              These changes were found on the VPS during automated deployment.
+              Please review and merge if needed, or discard if they are temporary."
+              
+              # Push branch to GitHub
+              git push origin "$BRANCH_NAME"
+              
+              # Create PR using GitHub CLI
+              export GH_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+              PR_URL=$(gh pr create --base master --head "$BRANCH_NAME" --title "🚨 Server local changes detected during PRODUCTION deployment" --body "Local changes found on PRODUCTION VPS during deployment. Review and merge if needed, or close if temporary.")
+              
+              if [ $? -ne 0 ]; then
+                echo "::error::Found local changes on server but failed to create PR. Please check manually."
+                exit 1
+              fi
+              
+              echo "PR created: $PR_URL"
+              echo "::error::Found local changes on server. Resolve PR: $PR_URL"
+              exit 1
+            fi
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script_stop: true
+          script: |
+            set -euo pipefail
             cd ~/work-track/deployment
             git pull origin master
             docker-compose up -d --build
