@@ -1,5 +1,3 @@
-version: '3.8'
-
 # Development deployment services (separate from production)
 services:
   # Backend - Go API (Dev)
@@ -57,4 +55,4 @@ volumes:
 
 networks:
   worktrack-network:
-    external: true
+    driver: bridge
