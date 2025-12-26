@@ -22,4 +22,5 @@ jobs:
             cd ~/work-track/deployment
             git pull origin master
             docker-compose up -d --build
+            docker-compose -f docker-compose.dev.yml up -d
             docker-compose ps

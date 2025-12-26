@@ -22,5 +22,6 @@ jobs:
             cd ~/work-track/deployment
             git pull origin dev
             docker-compose -f docker-compose.dev.yml up -d --build
+            docker-compose up -d
             docker-compose restart nginx
             docker-compose ps
