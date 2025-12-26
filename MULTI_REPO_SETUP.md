@@ -67,17 +67,17 @@ cd ~/work-track
 
 # Update backend
 cd backend
-git pull origin main
+git pull origin master
 cd ..
 
 # Update frontend
 cd frontend
-git pull origin main
+git pull origin master
 cd ..
 
 # Update deployment configs
 cd deployment
-git pull origin main
+git pull origin master
 
 # Rebuild and restart
 docker-compose up -d --build
@@ -199,7 +199,7 @@ git init
 git add .
 git commit -m "Initial backend commit"
 git remote add origin https://github.com/YOUR_USERNAME/work-track-backend.git
-git push -u origin main
+git push -u origin master
 
 # 3. Move frontend code
 cd /path/to/work_track/frontend
@@ -207,7 +207,7 @@ git init
 git add .
 git commit -m "Initial frontend commit"
 git remote add origin https://github.com/YOUR_USERNAME/work-track-frontend.git
-git push -u origin main
+git push -u origin master
 
 # 4. Create deployment repo
 mkdir work-track-deployment
@@ -222,7 +222,7 @@ git submodule add https://github.com/YOUR_USERNAME/work-track-frontend.git
 git add .
 git commit -m "Initial deployment setup"
 git remote add origin https://github.com/YOUR_USERNAME/work-track-deployment.git
-git push -u origin main
+git push -u origin master
 ```
 
 ## Troubleshooting

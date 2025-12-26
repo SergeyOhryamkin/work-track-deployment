@@ -35,7 +35,7 @@ git commit -m "Initial deployment configuration"
 
 # Create remote repository on GitHub: work-track-deployment
 git remote add origin https://github.com/YOUR_USERNAME/work-track-deployment.git
-git push -u origin main
+git push -u origin master
 ```
 
 ## Server Deployment Setup
@@ -106,7 +106,7 @@ This works because:
 
 ```bash
 cd ~/work-track/backend
-git pull origin main
+git pull origin master
 cd ../deployment
 docker-compose up -d --build backend
 ```
@@ -115,7 +115,7 @@ docker-compose up -d --build backend
 
 ```bash
 cd ~/work-track/frontend
-git pull origin main
+git pull origin master
 cd ../deployment
 docker-compose up -d --build frontend
 ```
@@ -124,7 +124,7 @@ docker-compose up -d --build frontend
 
 ```bash
 cd ~/work-track/deployment
-git pull origin main
+git pull origin master
 docker-compose up -d --build
 ```
 
@@ -151,7 +151,7 @@ cd ~/Documents/Projects/work_track/backend
 # Make changes
 git add .
 git commit -m "Your changes"
-git push origin main
+git push origin master
 
 # On server
 cd ~/work-track/backend
@@ -167,7 +167,7 @@ cd ~/Documents/Projects/work_track/frontend
 # Make changes
 git add .
 git commit -m "Your changes"
-git push origin main
+git push origin master
 
 # On server
 cd ~/work-track/frontend
@@ -183,7 +183,7 @@ cd ~/Documents/Projects/work_track/deployment
 # Make changes to nginx, docker-compose.yml, etc.
 git add .
 git commit -m "Your changes"
-git push origin main
+git push origin master
 
 # On server
 cd ~/work-track/deployment

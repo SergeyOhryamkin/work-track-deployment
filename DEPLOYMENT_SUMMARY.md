@@ -102,7 +102,7 @@ git commit -m "Add production deployment configuration
 - Deployment scripts and checklists"
 
 # Push to repository
-git push origin main
+git push origin master
 ```
 
 ### 2. On Your Server

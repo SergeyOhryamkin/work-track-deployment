@@ -182,7 +182,7 @@ echo "0 0,12 * * * root /usr/local/bin/renew-cert.sh" | sudo tee -a /etc/crontab
 cd ~/work-track
 
 # Pull latest changes
-git pull origin main
+git pull origin master
 
 # Rebuild and restart services
 docker-compose up -d --build
