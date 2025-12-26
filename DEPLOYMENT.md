@@ -13,8 +13,8 @@ This guide covers deploying the Work Track application to a VPS with Docker Comp
 ## Prerequisites
 
 1. VPS with Ubuntu 24.04 LTS
-2. Domain name (e.g., work-dent.mooo.com)
-3. Yandex Object Storage account (for avatars)
+2. Domain name (e.g., work-dent.absl.ro)
+3. Timeweb Cloud Storage account (for avatars)
 
 ## Initial Server Setup
 
@@ -100,9 +100,9 @@ nano .env
 
 **Required variables**:
 - `JWT_SECRET`: Generate with `openssl rand -base64 32`
-- `S3_ENDPOINT`: Your Yandex Object Storage endpoint
-- `S3_ACCESS_KEY`: Yandex access key
-- `S3_SECRET_KEY`: Yandex secret key
+- `S3_ENDPOINT`: Your Timeweb Cloud Storage endpoint
+- `S3_ACCESS_KEY`: Timeweb access key
+- `S3_SECRET_KEY`: Timeweb secret key
 - `S3_BUCKET`: Your bucket name
 
 ### 3. Get SSL Certificate
@@ -115,13 +115,13 @@ sudo systemctl stop nginx 2>/dev/null || true
 
 # Get certificate
 sudo certbot certonly --standalone \
-  -d work-dent.mooo.com \
+  -d work-dent.absl.ro \
   --agree-tos \
   --email your@email.com \
   --non-interactive
 
 # Verify certificate was created
-sudo ls -la /etc/letsencrypt/live/work-dent.mooo.com/
+sudo ls -la /etc/letsencrypt/live/work-dent.absl.ro/
 ```
 
 ### 4. Build and Start Services
@@ -153,7 +153,7 @@ docker-compose logs backend
 docker-compose logs frontend
 
 # Test from browser
-# Visit: https://work-dent.mooo.com
+# Visit: https://work-dent.absl.ro
 ```
 
 ## SSL Certificate Auto-Renewal

@@ -1,9 +1,9 @@
-name: Deploy Configuration (Dev)
+name: Deploy Configuration (Prod)
 
 on:
   push:
     branches:
-      - dev
+      - master
 
 jobs:
   deploy:
@@ -20,7 +20,6 @@ jobs:
           script_stop: false
           script: |
             cd ~/work-track/deployment
-            git pull origin dev
-            docker-compose -f docker-compose.dev.yml up -d --build
-            docker-compose restart nginx
+            git pull origin master
+            docker-compose up -d --build
             docker-compose ps

@@ -22,7 +22,7 @@ services:
     volumes:
       - sqlite-dev-data:/app/data
     networks:
-      - worktrack-dev-network
+      - worktrack-network
     deploy:
       resources:
         limits:
@@ -42,7 +42,7 @@ services:
     container_name: worktrack-frontend-dev
     restart: unless-stopped
     networks:
-      - worktrack-dev-network
+      - worktrack-network
     deploy:
       resources:
         limits:
@@ -56,5 +56,5 @@ volumes:
   sqlite-dev-data:
 
 networks:
-  worktrack-dev-network:
-    driver: bridge
+  worktrack-network:
+    external: true
