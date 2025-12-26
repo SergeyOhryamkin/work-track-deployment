@@ -63,7 +63,7 @@ fi
 print_success "Docker Compose is installed"
 
 # Check if SSL certificate exists
-DOMAIN="work-dent.mooo.com"
+DOMAIN="work-dent.absl.ro"
 if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
     print_error "SSL certificate not found for $DOMAIN"
     echo ""

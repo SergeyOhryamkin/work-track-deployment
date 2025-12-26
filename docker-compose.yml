@@ -13,7 +13,7 @@ services:
       - ENV=production
       - DB_PATH=/data/worktrack.db
       - JWT_SECRET=${JWT_SECRET}
-      - ALLOWED_ORIGINS=https://work-dent.mooo.com
+      - ALLOWED_ORIGINS=https://work-dent.absl.ro
       - S3_ENDPOINT=${S3_ENDPOINT}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY}
       - S3_SECRET_KEY=${S3_SECRET_KEY}
@@ -37,7 +37,7 @@ services:
       context: ../frontend
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=https://work-dent.mooo.com/api
+        - VITE_API_URL=https://work-dent.absl.ro/api
     container_name: worktrack-frontend
     restart: unless-stopped
     networks:
