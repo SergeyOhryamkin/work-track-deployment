@@ -1,0 +1,56 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+data/
+
+# Docker volumes
+volumes/
+
+# SSL certificates (managed by Let's Encrypt)
+ssl/
+*.pem
+*.key
+*.crt
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

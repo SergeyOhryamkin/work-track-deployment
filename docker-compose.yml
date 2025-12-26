@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: worktrack-backend
+    restart: unless-stopped
+    environment:
+      - PORT=8080
+      - ENV=production
+      - DB_PATH=/data/worktrack.db
+      - JWT_SECRET=${JWT_SECRET}
+      - ALLOWED_ORIGINS=https://work-dent.mooo.com
+      - S3_ENDPOINT=${S3_ENDPOINT}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+      - S3_BUCKET=${S3_BUCKET}
+    volumes:
+      - sqlite-data:/data
+    networks:
+      - worktrack-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+
+  # Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+      args:
+        - VITE_API_URL=https://work-dent.mooo.com/api
+    container_name: worktrack-frontend
+    restart: unless-stopped
+    networks:
+      - worktrack-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: worktrack-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - certbot-webroot:/var/www/certbot:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - worktrack-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+
+networks:
+  worktrack-network:
+    driver: bridge
+
+volumes:
+  sqlite-data:
+  certbot-webroot:
