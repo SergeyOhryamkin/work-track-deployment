@@ -28,8 +28,8 @@ jobs:
               echo "Found local changes on server, creating PR..."
               
               BRANCH_NAME="server-local-changes-prod-$(date +%s)"
-              git config user.name "GitHub Actions"
-              git config user.email "actions@github.com"
+              git config user.name "SergeyOhryamkin"
+              git config user.email "sergey.ohryamkin@softservice.org"
               
               # Create branch with local changes
               git checkout -b "$BRANCH_NAME"
