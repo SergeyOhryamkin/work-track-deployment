@@ -16,7 +16,7 @@ services:
       - S3_ACCESS_KEY=${S3_ACCESS_KEY}
       - S3_SECRET_KEY=${S3_SECRET_KEY}
       - S3_REGION=${S3_REGION}
-      - ALLOWED_ORIGINS=https://dev.work-dent.absl.ro,http://localhost:5173
+      - ALLOWED_ORIGINS=*
     volumes:
       - sqlite-dev-data:/app/data
     networks:
