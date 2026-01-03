@@ -36,16 +36,6 @@ jobs:
               echo "  5. Re-run the deployment workflow"
               exit 1
             fi
-            
-            # Check if local branch is behind remote
-            if ! git diff --quiet HEAD origin/dev; then
-              echo "ERROR: Local branch diverged from origin/dev"
-              echo "Please resolve:"
-              echo "  1. SSH to server and review: git log HEAD..origin/dev"
-              echo "  2. Reset to origin: git reset --hard origin/dev"
-              echo "  3. Re-run the deployment workflow"
-              exit 1
-            fi
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
