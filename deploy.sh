@@ -62,21 +62,34 @@ fi
 
 print_success "Docker Compose is installed"
 
-# Check if SSL certificate exists
+# Check if SSL certificates exist
 DOMAIN="work-dent.absl.ro"
-if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
-    print_error "SSL certificate not found for $DOMAIN"
-    echo ""
-    echo "Please obtain SSL certificate first:"
-    echo "  sudo certbot certonly --standalone -d $DOMAIN --agree-tos --email your@email.com"
-    echo ""
-    read -p "Do you want to continue without SSL? (y/N) " -n 1 -r
+DEV_DOMAIN="dev.work-dent.absl.ro"
+
+check_cert() {
+    local domain=$1
+    if [ ! -d "/etc/letsencrypt/live/$domain" ]; then
+        print_error "SSL certificate not found for $domain"
+        echo ""
+        echo "Please obtain SSL certificate first:"
+        echo "  sudo certbot certonly --standalone -d $domain --agree-tos --email your@email.com"
+        echo ""
+        return 1
+    fi
+    print_success "SSL certificate found for $domain"
+    return 0
+}
+
+CERTS_OK=true
+check_cert "$DOMAIN" || CERTS_OK=false
+check_cert "$DEV_DOMAIN" || CERTS_OK=false
+
+if [ "$CERTS_OK" = false ]; then
+    read -p "Do you want to continue without some SSL certificates? (y/N) " -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         exit 1
     fi
-else
-    print_success "SSL certificate found"
 fi
 
 # Create necessary directories
@@ -84,6 +97,13 @@ print_info "Creating directories..."
 mkdir -p data/sqlite
 mkdir -p nginx/conf.d
 print_success "Directories created"
+
+# Create external docker network if it doesn't exist
+if ! docker network inspect worktrack-network >/dev/null 2>&1; then
+    print_info "Creating external docker network 'worktrack-network'..."
+    docker network create worktrack-network
+    print_success "Network created"
+fi
 
 # Pull latest changes (if git repo)
 if [ -d .git ]; then

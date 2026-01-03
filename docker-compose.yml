@@ -79,7 +79,7 @@ services:
 
 networks:
   worktrack-network:
-    driver: bridge
+    external: true
 
 volumes:
   sqlite-data:

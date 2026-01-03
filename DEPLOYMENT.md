@@ -105,23 +105,31 @@ nano .env
 - `S3_SECRET_KEY`: Timeweb secret key
 - `S3_BUCKET`: Your bucket name
 
-### 3. Get SSL Certificate
+### 3. Get SSL Certificates
 
-**Important**: Do this BEFORE starting Docker containers.
+**Important**: Do this BEFORE starting Docker containers. You need certificates for both production and development domains.
 
 ```bash
 # Stop any service on port 80
 sudo systemctl stop nginx 2>/dev/null || true
 
-# Get certificate
+# Get certificate for production
 sudo certbot certonly --standalone \
   -d work-dent.absl.ro \
   --agree-tos \
   --email your@email.com \
   --non-interactive
 
-# Verify certificate was created
+# Get certificate for development
+sudo certbot certonly --standalone \
+  -d dev.work-dent.absl.ro \
+  --agree-tos \
+  --email your@email.com \
+  --non-interactive
+
+# Verify certificates were created
 sudo ls -la /etc/letsencrypt/live/work-dent.absl.ro/
+sudo ls -la /etc/letsencrypt/live/dev.work-dent.absl.ro/
 ```
 
 ### 4. Build and Start Services

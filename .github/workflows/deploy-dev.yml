@@ -49,6 +49,8 @@ jobs:
             set -euo pipefail
             cd ~/work-track/deployment
             git pull origin dev
+            # Ensure external network exists
+            docker network inspect worktrack-network >/dev/null 2>&1 || docker network create worktrack-network
             docker-compose -f docker-compose.dev.yml up -d --build
             docker-compose up -d
             docker-compose restart nginx

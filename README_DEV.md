@@ -37,6 +37,7 @@ Development uses `.env.dev` with:
 # Deploy dev environment
 cd ~/work-track/deployment
 docker-compose -f docker-compose.dev.yml up -d --build
+docker-compose restart nginx # Nginx must be restarted to recognize new dev backend/frontend
 
 # Deploy production
 docker-compose up -d --build

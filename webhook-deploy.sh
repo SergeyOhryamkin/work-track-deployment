@@ -15,17 +15,20 @@ case $REPO in
     cd ~/work-track/backend
     git pull origin master >> "$LOG_FILE" 2>&1
     cd ../deployment
+    docker network inspect worktrack-network >/dev/null 2>&1 || docker network create worktrack-network
     docker-compose up -d --build backend >> "$LOG_FILE" 2>&1
     ;;
   "frontend")
     cd ~/work-track/frontend
     git pull origin master >> "$LOG_FILE" 2>&1
     cd ../deployment
+    docker network inspect worktrack-network >/dev/null 2>&1 || docker network create worktrack-network
     docker-compose up -d --build frontend >> "$LOG_FILE" 2>&1
     ;;
   "deployment")
     cd ~/work-track/deployment
     git pull origin master >> "$LOG_FILE" 2>&1
+    docker network inspect worktrack-network >/dev/null 2>&1 || docker network create worktrack-network
     docker-compose up -d nginx >> "$LOG_FILE" 2>&1
     ;;
   *)

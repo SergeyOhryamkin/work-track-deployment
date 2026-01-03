@@ -55,4 +55,4 @@ volumes:
 
 networks:
   worktrack-network:
-    driver: bridge
+    external: true
